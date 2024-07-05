@@ -10,6 +10,7 @@ RUN pip install poetry
 RUN poetry config virtualenvs.create false
 RUN poetry install --no-dev
 
+ENV PYTHONPATH=/app
 EXPOSE 8000
 
 WORKDIR /app/oi/ai/mleng/takehome/backend
