@@ -6,7 +6,8 @@ from oi.ai.mleng.takehome.pipeline.preprocessing import ImagePreprocessor
 
 class MarineAnimalClassifier:
     """
-    A class used to classify images of marine animals using a pre-trained ResNet-50 model.
+    A class used to classify images of marine animals using a pre-trained \
+            ResNet-50 model.
 
     The MarineAnimalClassifier class initializes a ResNet-50 model \
             pre-trained on the ImageNet dataset, sets it to evaluation mode, \
