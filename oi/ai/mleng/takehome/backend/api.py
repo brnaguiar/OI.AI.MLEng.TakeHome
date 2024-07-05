@@ -5,10 +5,13 @@ import aiohttp
 import uvicorn
 from fastapi import FastAPI, Form, HTTPException
 from fastapi.responses import HTMLResponse
-from frontend import get_prediction_html, get_root_html
 
+from oi.ai.mleng.takehome.backend.frontend import (
+    get_prediction_html,
+    get_root_html,
+)
 from oi.ai.mleng.takehome.pipeline.model import MarineAnimalClassifier
-from oi.ai.mleng.takehome.pipeline.postprocessing import ClassLoader
+from oi.`ai.mleng.takehome.pipeline.postprocessing import ClassLoader
 from oi.ai.mleng.takehome.pipeline.preprocessing import ImagePreprocessor
 
 preprocessor = ImagePreprocessor()
