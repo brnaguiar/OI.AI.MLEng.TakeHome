@@ -5,6 +5,7 @@ COPY ./poetry.lock .
 COPY ./pyproject.toml .
 COPY ./oi/ai/mleng/takehome/pipeline oi/ai/mleng/takehome/pipeline
 COPY ./oi/ai/mleng/takehome/backend oi/ai/mleng/takehome/backend
+COPY ./data/labels data/labels
 
 RUN pip install poetry
 RUN poetry config virtualenvs.create false

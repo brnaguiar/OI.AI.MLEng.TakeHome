@@ -3,14 +3,18 @@ import tempfile
 
 import aiohttp
 import uvicorn
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi import FastAPI, Form, HTTPException
+from fastapi.responses import HTMLResponse
 
 from oi.ai.mleng.takehome.pipeline.model import MarineAnimalClassifier
+from oi.ai.mleng.takehome.pipeline.postprocessing import ClassLoader
 from oi.ai.mleng.takehome.pipeline.preprocessing import ImagePreprocessor
 
 preprocessor = ImagePreprocessor()
 classifier = MarineAnimalClassifier(preprocessor)
+postprocessor = ClassLoader(
+    "../../../../../data/labels/imagenet_class_index.json"
+).load_data()
 
 app = FastAPI()
 
@@ -70,7 +74,7 @@ def read_root():
 
 
 @app.post("/predict/")
-async def predict_image2(url: str = Form(...)) -> JSONResponse:
+async def predict_image2(url: str = Form(...)) -> HTMLResponse:
     filename = url.split("/")[-1]
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
@@ -89,7 +93,7 @@ async def predict_image2(url: str = Form(...)) -> JSONResponse:
     # Perform prediction
     class_idx: int = classifier.predict(temp_file_path)
 
-    prediction = class_idx 
+    prediction = postprocessor.get_animal_name_by_index(class_idx)
     content = f"""
     <html>
         <head>
@@ -125,18 +129,17 @@ async def predict_image2(url: str = Form(...)) -> JSONResponse:
             </style>
         </head>
         <body>
-            <h1>Prediction Result</h1>
+            <h1>It's a {prediction}!</h1>
             <div class="result">
                 <img src="{url}" alt="Marine Animal Image">
-                <div class="prediction">Prediction: {prediction}</div>
             </div>
             <br>
             <a href="/">Go Back</a>
         </body>
     </html>
+    <div class="prediction"></div>
     """
     return HTMLResponse(content=content)
-    #return JSONResponse(content={"class_index": class_idx})
 
 
 if __name__ == "__main__":
