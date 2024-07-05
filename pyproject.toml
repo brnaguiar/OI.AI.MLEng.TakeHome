@@ -7,12 +7,21 @@ readme = "README.md"
 packages = [{include = "oi"}]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.10"
 torch = "^2.3.1"
 torchvision = "^0.18.1"
 black = "^24.4.2"
 isort = "^5.13.2"
 
+[tool.black]
+line-length = 79
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 79
+multi_line_output = 3
+include_trailing_comma = true
 
 [build-system]
 requires = ["poetry-core"]
