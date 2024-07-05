@@ -1,10 +1,12 @@
 import json
 
+from pydantic import Json
+
 
 class ClassLoader:
-    def __init__(self, json_file):
+    def __init__(self, json_file: Json):
         self.json_file = json_file
-        self.class_to_str = None
+        self.class_to_str: dict = {}
 
     def load_data(self):
         # Read JSON data from file
@@ -21,15 +23,17 @@ class ClassLoader:
         }
         return self
 
-    def get_animal_name_by_index(self, index):
+    def get_animal_name_by_index(self, index) -> str:
         if not self.class_to_str:
             raise ValueError(
                 "Animal dictionary is not loaded. Call load_data() first."
             )
 
-        return self.class_to_str.get(str(index))
+        class_str = self.class_to_str.get(str(index))
 
-    def print_animal_dict(self):
+        return class_str + "!" if class_str else "unknown class :("
+
+    def print_animal_dict(self) -> None:
         if not self.class_to_str:
             raise ValueError(
                 "Animal dictionary is not loaded. Call load_data() first."
