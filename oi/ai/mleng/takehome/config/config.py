@@ -8,9 +8,12 @@ class Data:
 
     Attributes:
         labels (str): A string representing labels associated with the data.
+        Images (str): A string representing the directory of images about \
+                marine animals.
     """
 
     labels: str
+    images: str = ""
 
 
 @dataclass
