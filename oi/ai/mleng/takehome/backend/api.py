@@ -2,23 +2,31 @@ import os
 import tempfile
 
 import aiohttp
+import hydra
 import uvicorn
 from fastapi import FastAPI, Form, HTTPException
 from fastapi.responses import HTMLResponse
+from hydra.core.config_store import ConfigStore
 
 from oi.ai.mleng.takehome.backend.frontend import (
     get_prediction_html,
     get_root_html,
 )
+from oi.ai.mleng.takehome.config.config import Files
 from oi.ai.mleng.takehome.pipeline.model import MarineAnimalClassifier
 from oi.ai.mleng.takehome.pipeline.postprocessing import ClassLoader
 from oi.ai.mleng.takehome.pipeline.preprocessing import ImagePreprocessor
 
+cs = ConfigStore.instance()
+cs.store(name="files_config", node=Files)
+
+
+hydra.initialize(version_base=None, config_path="../../../../../conf")
+cfg = hydra.compose(config_name="application.yaml", return_hydra_config=True)
+
 preprocessor = ImagePreprocessor()
 classifier = MarineAnimalClassifier(preprocessor)
-postprocessor = ClassLoader(
-    "../../../../../data/labels/imagenet_class_index.json"
-).load_data()
+postprocessor = ClassLoader(cfg.files.data.labels).load_data()
 
 app = FastAPI()
 
