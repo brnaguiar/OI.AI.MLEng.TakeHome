@@ -1,4 +1,4 @@
 files:
   data:
-    labels: ${hydra.runtime.cwd}/../data/labels/imagenet_class_index.json
-    images: ${hydra.runtime.cwd}/../data/images/
+    labels: ${hydra.runtime.cwd}/data/labels/imagenet_class_index.json
+    images: ${hydra.runtime.cwd}/data/images/

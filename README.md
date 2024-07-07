@@ -17,5 +17,7 @@ Python will be compiled considering these libraries:
 1. Run `poetry install`
 1. Run `poetry run inv service`
 
+*Note*: You may want set `poetry config virtualenvs.in-project true` to expect the virtual environment folder named `.venv` within the root directory of the project.
+
 ## Usage 
 Access the endpoint `http://0.0.0.0:8000/` in your browser, and enter the URL of a picture of your choice. The service will tell you what animal is in the picture! :)

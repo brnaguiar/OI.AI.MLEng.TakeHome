@@ -86,7 +86,11 @@ def get_prediction_html(prediction_class: str, url: str) -> str:
             </style>
         </head>
         <body>
-            <h1>It's a {prediction_class}</h1>
+            <h1>It's a {
+                prediction_class+'!'
+                if prediction_class != 'unknown class'
+                else ':('
+            }</h1>
             <div class="result">
                 <img src="{url}" alt="Marine Animal Image">
             </div>

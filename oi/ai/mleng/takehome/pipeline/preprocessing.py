@@ -1,6 +1,8 @@
 import torchvision as transforms
 from PIL import Image
 
+from oi.ai.mleng.takehome.pipeline import DEVICE
+
 
 class ImagePreprocessor:
     """
@@ -68,4 +70,4 @@ class ImagePreprocessor:
         """
         image = Image.open(image_path)
         image = self.transform(image)
-        return image.unsqueeze(0)  # Add batch dimension
+        return image.unsqueeze(0).to(DEVICE)  # Add batch dimension

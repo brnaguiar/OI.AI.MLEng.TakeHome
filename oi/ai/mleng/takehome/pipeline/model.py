@@ -1,7 +1,7 @@
 import torch
 import torchvision as models
 
-from oi.ai.mleng.takehome.pipeline.preprocessing import ImagePreprocessor
+from oi.ai.mleng.takehome.pipeline import DEVICE
 
 
 class MarineAnimalClassifier:
@@ -33,7 +33,7 @@ class MarineAnimalClassifier:
         Predicts the class index of the given image.
     """
 
-    def __init__(self, preprocessor: ImagePreprocessor = ImagePreprocessor()):
+    def __init__(self):
         """
         Initializes the MarineAnimalClassifier with a pre-trained ResNet-50 \
                 model and the specified image preprocessor.
@@ -49,13 +49,9 @@ class MarineAnimalClassifier:
         )
         self.model.eval()  # Set the model to evaluation mode
 
-        self.device = torch.device(
-            "cuda" if torch.cuda.is_available() else "cpu"
-        )
-        self.model.to(self.device)
-        self.preprocessor = preprocessor
+        self.model.to(DEVICE)
 
-    def predict(self, image_path: str) -> int:
+    def predict(self, image: torch.Tensor) -> int:
         """
         Predicts the class of the given image.
 
@@ -73,7 +69,6 @@ class MarineAnimalClassifier:
         int
             Predicted class index.
         """
-        image = self.preprocessor(image_path).to(self.device)
 
         # Perform the prediction
         with torch.no_grad():

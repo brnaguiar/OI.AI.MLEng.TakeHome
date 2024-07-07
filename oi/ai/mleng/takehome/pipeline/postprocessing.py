@@ -106,23 +106,4 @@ class ClassLoader:
 
         class_str = self.class_to_str.get(str(index))
 
-        return class_str + "!" if class_str else "unknown class :("
-
-    def print_animal_dict(self) -> None:
-        """
-        Prints the dictionary of class indices and their corresponding \
-                formatted animal names.
-
-        Raises
-        ------
-        ValueError
-            If the animal dictionary is not loaded before calling this method.
-        """
-        if not self.class_to_str:
-            raise ValueError(
-                "Animal dictionary is not loaded. Call load_data() first."
-            )
-
-        # Print the resulting dictionary
-        for key, value in self.class_to_str.items():
-            print(f"{key}: {value}")
+        return class_str if class_str else "unknown class"

@@ -21,23 +21,30 @@ cs = ConfigStore.instance()
 cs.store(name="files_config", node=Files)
 
 
+hydra.core.global_hydra.GlobalHydra.instance().clear()
 hydra.initialize(version_base=None, config_path="../../../../../conf")
-cfg = hydra.compose(config_name="application.yaml", return_hydra_config=True)
+
+if __name__ in ("__main__", "api"):
+    cfg = hydra.compose(
+        config_name="application.yaml", return_hydra_config=True
+    )
+else:
+    cfg = hydra.compose(config_name="tests.yaml", return_hydra_config=True)
 
 preprocessor = ImagePreprocessor()
-classifier = MarineAnimalClassifier(preprocessor)
+classifier = MarineAnimalClassifier()
 postprocessor = ClassLoader(cfg.files.data.labels).load_data()
 
 app = FastAPI()
 
 
 @app.get("/")
-async def read_root():
+async def read_root() -> HTMLResponse:
     return HTMLResponse(content=get_root_html())
 
 
 @app.post("/predict/")
-async def predict_image2(url: str = Form(...)) -> HTMLResponse:
+async def predict_image(url: str = Form(...)) -> HTMLResponse:
     filename = url.split("/")[-1]
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
@@ -54,9 +61,10 @@ async def predict_image2(url: str = Form(...)) -> HTMLResponse:
                 )
 
     # Perform prediction
-    class_idx: int = classifier.predict(temp_file_path)
-
+    image = preprocessor(temp_file_path)
+    class_idx = classifier.predict(image)
     prediction = postprocessor.get_animal_name_by_index(class_idx)
+
     return HTMLResponse(content=get_prediction_html(prediction, url))
 
 
