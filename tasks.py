@@ -18,3 +18,9 @@ def format(c):
 def validate(c):
     """Perform code validations"""
     c.run("pylint oi")
+
+
+@task
+def tests(c):
+    """Perform python tests"""
+    c.run("pytest .")
