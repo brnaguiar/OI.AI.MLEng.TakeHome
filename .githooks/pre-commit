@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# Check for unstaged changes in tracked files
+if ! git diff --exit-code > /dev/null; then
+  echo "You have unstaged changes. Please stage them or stash them before committing."
+  exit 1
+fi
+
+echo "Formatting your code..."
+poetry run inv format
+
+echo "Checking poetry lock..."
+poetry lock --no-update
+
+if [ $? -ne 0 ]; then
+  echo "Found locking conflits."
+  exit 1
+fi
+
+echo "Validating your code..."
+poetry run inv validate
+
+if [ $? -ne 0 ]; then
+  echo "Pylint found issues. Please fix them before committing."
+  exit 1
+fi
+
+echo "All checks passed. Proceeding with commit."

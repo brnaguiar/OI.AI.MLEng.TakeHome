@@ -14,6 +14,7 @@ Python will be compiled considering these libraries:
 1. Install [Poetry](https://python-poetry.org/)
 1. Install [Docker](https://docs.docker.com/engine/install/)
 1. Install Python 3.10.14 through pyenv: `pyenv install 3.10.14`
+1. Move, or copy, git hooks to the correct folder: `cp .githooks/pre-commit .git/hooks/; chmod +x .git/hooks/pre-commit`
 1. Run `poetry install`
 1. Run `poetry run inv service`
 
