@@ -7,6 +7,7 @@ import uvicorn
 from fastapi import FastAPI, Form, HTTPException
 from fastapi.responses import HTMLResponse
 from hydra.core.config_store import ConfigStore
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from oi.ai.mleng.takehome.backend.frontend import (
     get_prediction_html,
@@ -19,7 +20,6 @@ from oi.ai.mleng.takehome.pipeline.preprocessing import ImagePreprocessor
 
 cs = ConfigStore.instance()
 cs.store(name="files_config", node=Files)
-
 
 hydra.core.global_hydra.GlobalHydra.instance().clear()
 hydra.initialize(version_base=None, config_path="../../../../../conf")
@@ -36,6 +36,12 @@ classifier = MarineAnimalClassifier()
 postprocessor = ClassLoader(cfg.files.data.labels).load_data()
 
 app = FastAPI()
+instrumentator = Instrumentator().instrument(app)
+
+
+@app.on_event("startup")
+async def _startup():
+    instrumentator.expose(app)
 
 
 @app.get("/")

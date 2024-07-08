@@ -3,8 +3,10 @@ FROM python:3.10
 WORKDIR /app
 COPY ./poetry.lock .
 COPY ./pyproject.toml .
+COPY ./conf ./conf
 COPY ./oi/ai/mleng/takehome/pipeline oi/ai/mleng/takehome/pipeline
 COPY ./oi/ai/mleng/takehome/backend oi/ai/mleng/takehome/backend
+COPY ./oi/ai/mleng/takehome/config oi/ai/mleng/takehome/config
 COPY ./data/labels data/labels
 
 RUN pip install poetry
