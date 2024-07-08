@@ -36,7 +36,12 @@ classifier = MarineAnimalClassifier()
 postprocessor = ClassLoader(cfg.files.data.labels).load_data()
 
 app = FastAPI()
-Instrumentator().instrument(app).expose(app)
+instrumentator = Instrumentator().instrument(app)
+
+
+@app.on_event("startup")
+async def _startup():
+    instrumentator.expose(app)
 
 
 @app.get("/")

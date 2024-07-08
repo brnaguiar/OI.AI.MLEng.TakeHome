@@ -21,4 +21,30 @@ Python will be compiled considering these libraries:
 *Note*: You may want set `poetry config virtualenvs.in-project true` to expect the virtual environment folder named `.venv` within the root directory of the project.
 
 ## Usage 
-Access the endpoint `http://0.0.0.0:8000/` in your browser, and enter the URL of a picture of your choice. The service will tell you what animal is in the picture! :)
+Access the endpoint `http://localhost:8000/` in your browser, and enter the URL of a picture of your choice. The service will tell you what animal is in the picture! :)
+
+## Service Endpoints
+
+1. Website (in FastAPI): `http://localhost:8000/`
+1. Prometheus (Monitoring System): `http://localhost:9090/`
+1. Grafana (Monitoring Dashboards): `http://localhost:3000/`
+1. Cadvisor (Docker Performance): `http://localhost:8080/`
+
+
+## Some Screenshots
+
+1. Website front page
+
+<img src="./data/screenshots/app.png"/>
+
+2. Website predictor page
+
+<img src="./data/screenshots/app2.png"/>
+
+3. Grafana Dashboards
+
+<img src="./data/screenshots/grafana.png"/>
+
+4. Cadvisor of FastAPI's Docker contaner
+
+<img src="./data/screenshots/cadvisor.png"/>
