@@ -3,5 +3,29 @@ services:
     build:
       context: .
       dockerfile: docker/backend/Dockerfile
+    image: fastapi
+    container_name: fastapi
     ports:
       - "8000:8000"
+    networks:
+      - backend
+
+  prometheus:
+      image: prom/prometheus:latest
+      ports:
+        - "9090:9090"
+      environment:
+        - FASTAPI_PORT=8000
+      volumes:
+        - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      command:
+        - "--config.file=/etc/prometheus/prometheus.yml"
+      depends_on:
+        - fast-api
+      networks:
+        - backend 
+
+networks:
+  backend:
+    name: backend
+    driver: bridge
