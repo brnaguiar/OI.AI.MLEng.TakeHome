@@ -27,7 +27,7 @@ Access the endpoint `http://localhost:8000/` in your browser, and enter the URL 
 
 1. Website (in FastAPI): `http://localhost:8000/`
 1. Prometheus (Monitoring System): `http://localhost:9090/`
-1. Grafana (Monitoring Dashboards): `http://localhost:3000/`
+1. Grafana (Monitoring Dashboards): `http://localhost:3000/` (credentials: (username: `admin`, password: `admin`))
 1. Cadvisor (Docker Performance): `http://localhost:8080/`
 
 
@@ -45,6 +45,6 @@ Access the endpoint `http://localhost:8000/` in your browser, and enter the URL 
 
 <img src="./data/screenshots/grafana.png"/>
 
-4. Cadvisor of FastAPI's Docker contaner
+4. Cadvisor of FastAPI's Docker container
 
 <img src="./data/screenshots/cadvisor.png"/>
